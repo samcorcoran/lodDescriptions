@@ -5,6 +5,9 @@ from utils import decWhitespace
 
 import utils
 
+import random
+import string
+
 # A describable thing
 class Describable(object):
 	# Physical appearance
@@ -17,6 +20,7 @@ class Describable(object):
 		self.descriptionFunctions = dict()
 		self.addDescriptionFunctions()
 		self.noun = str(type(self).__name__)
+		self.gender = "neuter"
 		self.colours = []
 		self.materials = []
 		self.components = dict()
@@ -32,23 +36,33 @@ class Describable(object):
 	# Prompts describable to adopt new colours
 	def addMaterials(self, newMaterial):
 		self.material = newMaterial
-	
+
+        def addDescriptionFunctions(self):
+                self.descriptionFunctions['initialDescription'] = self.initialDescription
 	
 	# Print a description of this 
 	def describe(self, firstCall = True):
 		# Begin a traversal through the sub-objects for this object
 		if firstCall:
 			iPrint("Describing self...", True)
+			
 		description = ""
-		for func in descriptionFunctions:
-			descrption += func()
+
+                # Iterate through registered 'describe' functions and call each
+		#for key, func in self.descriptionFunctions.items():
+		#	description += str(func()) + ". "
+		
+                if firstCall:
+                        description += self.initialDescription() + ". "
+		description += self.describeComponentOverview(True)
+		
 		# Describe components 
 		#iPrint("Total component types: " + str(len(self.components.keys())), True)
 		for componentType, componentList in self.components.items():
 			#print("Component '" + str(componentType) + "' has "+ str(len(componentList)) +" "+ str(type(componentList[0])) +" objects.")
 			for component in componentList:
-				description += component.describe()
-				
+				description += str(component.describe(False))
+
 		if firstCall:
 			iPrint(description)
 			iPrint("End of description \n")
@@ -57,7 +71,10 @@ class Describable(object):
 		
 	
 	def initialDescription(self):
-		description = "This is a "+self.noun
+                description = ""
+		if self.noun:
+                        description = "This is a "+self.noun
+		return description
 		
 	
 	# Puts the object's name into a string for sentence incorporation, if it exists
@@ -66,12 +83,43 @@ class Describable(object):
 			preVerbs = ['called', 'named']
 			return random.choice(preVerbs) + " " + self.name 
 		return ""
-		
+	
+        def describeComponentOverview(self, doFullSentence):
+                description = ""
+                # May only describe components if they exist
+                if not len(self.components.keys()) == 0:
+                        if doFullSentence:
+                                # Begin with pronoun
+                                description = utils.getPronoun(self.gender, 'subject') + " "
+                        else:
+                                # Full sentence not required
+                                description += random.choice(", and ", ", which ")
+                        # Describe possession
+                        description += random.choice(["is made up of", "is composed of", "has"]) + " "
+                        # Track components listed so last 
+                        keyCount = 0
+                        for key, value in self.components.items():
+                                keyCount += 1
+                                description += utils.intToWord(len(value)) + " " + utils.pluralise(str(type(value[0]).__name__), len(value))
+                                if len(self.components.keys()) > 1 and keyCount+1 == len(self.components.keys()):
+                                        # insert a connector before last component
+                                        description += " and "
+                                elif not keyCount == len(self.components.keys()):
+                                        # comma separate components
+                                        description += ", "
+                                description += ". "
+                        if doFullSentence:
+                                description = string.capitalize(description)
+                return description
+                                
+                
+                
+                
 	def printComponentTree(self, firstCall = True):
 		# If function was invoked on current object, print initial message
 		if firstCall:
 			print("\nPrinting '"+self.noun+"' component tree:")
-		iPrint(type(self), True, "|", "-> ")
+		iPrint(type(self).__name__, True, "|", "-> ")
 		for componentType, componentList in self.components.items():
 			for component in componentList:
 				# Pass False as argument to 

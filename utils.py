@@ -54,7 +54,7 @@ def isOrAre(count):
 	return 'is'
 
 # Uses a gender and form to determine the correct pronoun to be used
-def getGenderedPronoun(gender = "neuter", form = "subject"):
+def getPronoun(gender = "neuter", form = "subject"):
 	pronouns = dict()
 	pronouns['masculine'] = {'subject':'he', 'object':'him', 'possessiveDeterminer':'his'}
 	pronouns['feminine'] = {'subject':'she', 'object':'her', 'possessiveDeterminer':'her'}
