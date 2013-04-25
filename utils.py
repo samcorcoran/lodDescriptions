@@ -64,3 +64,16 @@ def getPronoun(gender = "neuter", form = "subject"):
 	
 #	return random.choice(pronouns[gender][form])
 	return pronouns[gender][form]
+
+def listToCommaString(listedItems):
+        sentence = ""
+        itemCounter = 0
+        for item in listedItems:
+                itemCounter += 1
+                sentence += str(item)
+                # if current item is penultimate, follow up with connector 'and'
+                if itemCounter+1 == len(listedItems):
+                        sentence += " and "
+                elif not itemCounter == len(listedItems):
+                        sentence += ", "
+        return sentence

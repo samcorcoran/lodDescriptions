@@ -5,9 +5,14 @@ from utils import wsWrapper
 
 import baseDescribable
 
+import random
+
+# temp import:
+import creatures
+
 class Cube (baseDescribable.Describable):
 	def __init__(self):
-		iPrint("Initiating Cube...", True)
+		#iPrint("Initiating Cube...", True)
 		wsWrapper(baseDescribable.Describable.__init__, [self])
 		# Formed of six faces/sides
 		totalSides = 6
@@ -16,8 +21,16 @@ class Cube (baseDescribable.Describable):
 # An area with attributes
 class Surface (baseDescribable.Describable):
 	def __init__(self):
-		iPrint("Initiating Surface...", True)
+		#iPrint("Initiating Surface...", True)
 		wsWrapper(baseDescribable.Describable.__init__, [self])
-		
+
+                # Added colour features
+                newColours = random.choice([[], ['red'], ['blue'], ['green'], ['yellow'], ['black']])
+                self.addColours(newColours)
+
+		# Test components
+		# Formed of peasants
+		totalUnits = 20
+		self.components["peasants"] = [creatures.Peasant() for i in range(totalUnits)]
 		
 
