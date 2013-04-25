@@ -20,6 +20,11 @@ class Creature (baseDescribable.Describable):
 		iPrint("Initiating Creature...", True)
 		# Call init for superclass describable, therefore inheriting attributes
 		wsWrapper(baseDescribable.Describable.__init__, [self])
+		self.name = ""
+		
+	def setName(self, creatureName):
+		self.Name = creatureName
+
 
 class Humanoid (Creature):
 	# Physical appearance
@@ -41,19 +46,20 @@ class Peasant (Humanoid):
 
 print("Creating a cube...")
 box = geometry.Cube()
-box.setName("box")
+box.setNoun("box")
 box.addColours(["red", "orange"])
-#box.describe()
+box.describe()
 wsWrapper(box.printComponentTree)
 
 print("Creating a rabbit...")
 rabbit = Creature()
-rabbit.setName("rabbit")
+rabbit.setNoun("rabbit")
 rabbit.addColours(["brown"])
 rabbit.describe()
 
 print("Creating a humanoid...")
 percy = Humanoid()
+percy.setNoun("human")
 percy.setName("percy")
 percy.addColours(["pink"])
 percy.describe()
