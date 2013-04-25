@@ -63,3 +63,11 @@ percy.setNoun("human")
 percy.setName("percy")
 percy.addColours(["pink"])
 percy.describe()
+
+word = utils.intToWord(15)
+print(word)
+
+noun = "turkey"
+tNum = 1
+for tNum in range(0,12):
+	print("There "+utils.isOrAre(tNum)+" "+utils.intToWord(tNum)+" "+utils.pluralise(noun, tNum)+" on my lawn.")
